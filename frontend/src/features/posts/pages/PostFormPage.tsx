@@ -57,19 +57,24 @@ const PostFormPage = ({ mode }: PostFormPageProps) => {
   }, [form, id, isEdit, navigate, notification]);
 
   const handleSubmit = async (values: PostRequest) => {
+    const payload: PostRequest = {
+      ...values,
+      imageUrl: values.imageUrl?.trim() ? values.imageUrl.trim() : undefined,
+    };
+
     try {
       setLoading(true);
       if (isEdit && id) {
-        await updatePost(Number(id), values);
+        await updatePost(Number(id), payload);
         notification.success({
           message: "Post updated",
-          description: `"${values.name}" was updated successfully.`,
+          description: `"${payload.name}" was updated successfully.`,
         });
       } else {
-        await createPost(values);
+        await createPost(payload);
         notification.success({
           message: "Post created",
-          description: `"${values.name}" is now in the list.`,
+          description: `"${payload.name}" is now in the list.`,
         });
       }
       navigate("/");
