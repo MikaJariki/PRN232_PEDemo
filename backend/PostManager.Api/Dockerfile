@@ -5,10 +5,9 @@ ENV ASPNETCORE_URLS=http://+:8080
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY backend/PostManager.Api/PostManager.Api.csproj ./PostManager.Api/
-RUN dotnet restore ./PostManager.Api/PostManager.Api.csproj
-COPY backend/PostManager.Api/. ./PostManager.Api/
-WORKDIR /src/PostManager.Api
+COPY PostManager.Api.csproj .
+RUN dotnet restore PostManager.Api.csproj
+COPY . .
 RUN dotnet publish -c Release -o /app/publish
 
 FROM base AS final
